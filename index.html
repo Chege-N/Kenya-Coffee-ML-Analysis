@@ -529,7 +529,8 @@
   <button class="tab-btn" onclick="switchTab('dealers')">Dealer Analysis</button>
   <button class="tab-btn" onclick="switchTab('geo')">Geo Intelligence</button>
   <button class="tab-btn" onclick="switchTab('ml')">ML Models</button>
-  <button class="tab-btn" onclick="switchTab('projections')">Projections</button>
+  <button class="tab-btn" onclick="switchTab('projections')">Projections (12mo)</button>
+  <button class="tab-btn" onclick="switchTab('proj20yr')">🔭 20-Year Forecast</button>
 </nav>
 
 <div class="main">
@@ -923,6 +924,205 @@
       </div>
     </div>
   </div>
+
+  <!-- ===================== 20-YEAR FORECAST ===================== -->
+  <div class="panel" id="panel-proj20yr">
+    <br>
+    <div class="section-header">20-Year Sector Forecast <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted);font-weight:400;margin-left:0.75rem">2020 → 2040 · 4 Scenarios · Domain-Calibrated Growth Models</span></div>
+
+    <!-- Scenario KPI cards -->
+    <div class="grid-4" style="margin-bottom:1.25rem">
+      <div class="kpi-card">
+        <div class="accent-bar" style="background:#5b8db8"></div>
+        <div class="kpi-val" style="color:#5b8db8">4,801</div>
+        <div class="kpi-label">Baseline by 2040</div>
+        <div class="kpi-sub">+72% · Organic growth @ 1.5–4%/yr</div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent-bar" style="background:var(--accent)"></div>
+        <div class="kpi-val" style="color:var(--accent)">9,659</div>
+        <div class="kpi-label">Optimistic by 2040</div>
+        <div class="kpi-sub">+247% · Policy + NGO investment</div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent-bar" style="background:var(--accent3)"></div>
+        <div class="kpi-val" style="color:var(--accent3)">2,713</div>
+        <div class="kpi-label">Pessimistic by 2040</div>
+        <div class="kpi-sub">-2.5% · Climate shocks + price crash</div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent-bar" style="background:var(--accent2)"></div>
+        <div class="kpi-val" style="color:var(--accent2)">25,336</div>
+        <div class="kpi-label">Transformative by 2040</div>
+        <div class="kpi-sub">+810% · Full digitisation + premium mkts</div>
+      </div>
+    </div>
+
+    <!-- Main 20-year chart -->
+    <div class="card col-span-2" style="margin-bottom:1.25rem">
+      <div class="card-title">Cumulative Grower Base — 20-Year Trajectory (2020–2040)</div>
+      <canvas id="chart20yrCum" style="max-height:380px"></canvas>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:1.25rem">
+      <!-- Annual new registrations -->
+      <div class="card">
+        <div class="card-title">Annual New Grower Registrations by Scenario</div>
+        <canvas id="chart20yrAnnual" style="max-height:300px"></canvas>
+      </div>
+
+      <!-- Growth rate assumptions -->
+      <div class="card">
+        <div class="card-title">Scenario Assumptions & Growth Rate Trajectory</div>
+        <canvas id="chartGrowthRate" style="max-height:300px"></canvas>
+      </div>
+
+      <!-- Milestone table -->
+      <div class="card">
+        <div class="card-title">20-Year Milestone Table</div>
+        <table class="proj-table" style="font-size:0.72rem">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th style="color:#5b8db8">Baseline</th>
+              <th style="color:var(--accent)">Optimistic</th>
+              <th style="color:var(--accent3)">Pessimistic</th>
+              <th style="color:var(--accent2)">Transformative</th>
+            </tr>
+          </thead>
+          <tbody id="table20yr"></tbody>
+        </table>
+      </div>
+
+      <!-- Scenario narratives -->
+      <div class="card">
+        <div class="card-title">Scenario Narratives & Key Assumptions</div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(91,141,184,0.15);border:1px solid rgba(91,141,184,0.3)">📈</div>
+          <div class="insight-text">
+            <strong style="color:#5b8db8">Baseline (1.5–4%/yr)</strong> — Organic sector growth with modest policy continuity. No major shocks or investment. Kenya Coffee Board maintains current registration pace. Reaches ~4,800 growers by 2040.
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(212,168,83,0.15)">🚀</div>
+          <div class="insight-text">
+            <strong style="color:var(--accent)">Optimistic (6–8%/yr)</strong> — Government sector support, NGO-backed training, international certification drives (e.g., Rainforest Alliance, Fair Trade). Peak growth 2025–2031 as policy matures. Reaches ~9,700 by 2040.
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(201,107,74,0.15)">⚠️</div>
+          <div class="insight-text">
+            <strong style="color:var(--accent3)">Pessimistic (–3% to +1.5%/yr)</strong> — Drought shocks (2024–25), global coffee price crash (2028–29), land subdivision pressure. Registry stagnates or contracts. Drops to ~2,700 by 2040 — below 2020 baseline.
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(110,181,160,0.15)">🌍</div>
+          <div class="insight-text">
+            <strong style="color:var(--accent2)">Transformative (8–14%/yr)</strong> — Rwanda/Ethiopia-style sector modernisation: blockchain traceability, mobile-first grower registration, premium specialty market access, climate-smart agri investment. Reaches 25,000+ by 2040 — equivalent to a 9× sector expansion.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decade summary comparison -->
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="card-title">Decade-by-Decade Comparison — Cumulative Base at Key Milestones</div>
+      <canvas id="chartDecadeMilestones" style="max-height:260px"></canvas>
+    </div>
+
+    <!-- What-if analysis -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">ML-Derived Risk Factors for Long-Term Projections</div>
+        <div class="anomaly-row">
+          <span>Actor Type structural shift risk</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:84%;height:100%;background:var(--accent);border-radius:3px"></div>
+            </div>
+            <span class="anomaly-badge" style="background:rgba(212,168,83,0.15);color:var(--accent);border-color:rgba(212,168,83,0.3)">HIGH</span>
+          </div>
+        </div>
+        <div class="anomaly-row">
+          <span>Data completeness stagnation</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:89%;height:100%;background:var(--accent3);border-radius:3px"></div>
+            </div>
+            <span class="anomaly-badge">CRITICAL</span>
+          </div>
+        </div>
+        <div class="anomaly-row">
+          <span>Geo-coverage improvement rate</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:32%;height:100%;background:var(--accent2);border-radius:3px"></div>
+            </div>
+            <span class="anomaly-badge" style="background:rgba(110,181,160,0.15);color:var(--accent2);border-color:rgba(110,181,160,0.3)">MEDIUM</span>
+          </div>
+        </div>
+        <div class="anomaly-row">
+          <span>Dealer-grower integration risk</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:70%;height:100%;background:var(--accent);border-radius:3px"></div>
+            </div>
+            <span class="anomaly-badge" style="background:rgba(212,168,83,0.15);color:var(--accent);border-color:rgba(212,168,83,0.3)">HIGH</span>
+          </div>
+        </div>
+        <div class="anomaly-row">
+          <span>Climate variability exposure</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:65%;height:100%;background:var(--accent3);border-radius:3px"></div>
+            </div>
+            <span class="anomaly-badge">HIGH</span>
+          </div>
+        </div>
+        <div class="anomaly-row">
+          <span>Digital infrastructure readiness</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:42%;height:100%;background:#5b8db8;border-radius:3px"></div>
+            </div>
+            <span class="anomaly-badge" style="background:rgba(91,141,184,0.15);color:#5b8db8;border-color:rgba(91,141,184,0.3)">MEDIUM</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">20-Year Strategic Investment Roadmap</div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(212,168,83,0.1);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent)">1–5</div>
+          <div class="insight-text">
+            <strong>2020–2025 · Foundation Phase</strong><br>
+            Geo-tag 2,500+ growers. Launch mobile registration. Reactivate ML Cluster 1. Target: 3,945 growers (optimistic milestone).
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(110,181,160,0.1);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent2)">6–10</div>
+          <div class="insight-text">
+            <strong>2025–2030 · Growth Phase</strong><br>
+            Certification programs, grower-dealer marketplace, blockchain traceability pilot. Target: 5,800 growers (optimistic) / 8,786 (transformative).
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(91,141,184,0.1);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:#5b8db8">11–15</div>
+          <div class="insight-text">
+            <strong>2030–2035 · Scale Phase</strong><br>
+            Export-linked cooperatives, climate-adaptive varieties, institutional buyers. Target: 7,940 (optimistic) / 16,474 (transformative).
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon" style="background:rgba(123,94,167,0.1);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent4)">16–20</div>
+          <div class="insight-text">
+            <strong>2035–2040 · Maturation Phase</strong><br>
+            Kenya specialty coffee as global brand. Grower income parity target. Sector size: 9,659–25,336 depending on path chosen starting <em>today</em>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -1512,6 +1712,185 @@ function drawGeoMap() {
   ctx.fillStyle = 'rgba(212,168,83,0.5)';
   ctx.fillText('Mt. Kenya Coffee Belt', ...project(-0.8, 37.5).map((v,i) => v + (i===0?-60:-20)));
 }
+
+// ========== 20-YEAR PROJECTION DATA ==========
+const proj20 = {
+  years: [2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040],
+  baseline:      [2784,2895,3007,3120,3233,3345,3457,3568,3679,3788,3895,4000,4103,4203,4300,4394,4484,4570,4652,4729,4801],
+  optimistic:    [2784,2951,3149,3382,3652,3944,4260,4601,4969,5366,5796,6230,6667,7100,7526,7940,8337,8712,9060,9378,9659],
+  pessimistic:   [2784,2826,2865,2903,2937,2879,2821,2846,2869,2783,2700,2713,2724,2732,2738,2740,2740,2738,2732,2724,2713],
+  transformative:[2784,3007,3283,3625,4045,4563,5202,5930,6760,7707,8786,10016,11418,13017,14709,16474,18286,20114,21925,23679,25336],
+};
+
+// Annual new registrations (diff)
+function annualNew(arr) { return arr.map((v,i) => i===0 ? 0 : Math.round(v - arr[i-1])); }
+const ann_base = annualNew(proj20.baseline);
+const ann_opt  = annualNew(proj20.optimistic);
+const ann_pess = annualNew(proj20.pessimistic);
+const ann_tran = annualNew(proj20.transformative);
+
+// Growth rates per year (%)
+function growthRates(arr) { return arr.map((v,i) => i===0 ? 0 : parseFloat(((v - arr[i-1]) / arr[i-1] * 100).toFixed(2))); }
+const gr_base = growthRates(proj20.baseline);
+const gr_opt  = growthRates(proj20.optimistic);
+const gr_pess = growthRates(proj20.pessimistic);
+const gr_tran = growthRates(proj20.transformative);
+
+// ---- Cumulative 20-year chart ----
+new Chart(document.getElementById('chart20yrCum'), {
+  type: 'line',
+  data: {
+    labels: proj20.years,
+    datasets: [
+      {
+        label: 'Transformative',
+        data: proj20.transformative,
+        borderColor: COLORS.teal,
+        backgroundColor: 'rgba(110,181,160,0.07)',
+        tension: 0.45, fill: true,
+        borderWidth: 2.5, pointRadius: 3, pointBackgroundColor: COLORS.teal
+      },
+      {
+        label: 'Optimistic',
+        data: proj20.optimistic,
+        borderColor: COLORS.amber,
+        backgroundColor: 'rgba(212,168,83,0.07)',
+        tension: 0.45, fill: true,
+        borderWidth: 2.5, pointRadius: 3, pointBackgroundColor: COLORS.amber
+      },
+      {
+        label: 'Baseline',
+        data: proj20.baseline,
+        borderColor: '#5b8db8',
+        backgroundColor: 'rgba(91,141,184,0.05)',
+        tension: 0.4, fill: true,
+        borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#5b8db8',
+        borderDash: [6,3]
+      },
+      {
+        label: 'Pessimistic',
+        data: proj20.pessimistic,
+        borderColor: COLORS.orange,
+        backgroundColor: 'rgba(201,107,74,0.04)',
+        tension: 0.4, fill: true,
+        borderWidth: 2, pointRadius: 3, pointBackgroundColor: COLORS.orange,
+        borderDash: [3,3]
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    scales: {
+      x: { grid: gridOpts, title: { display: true, text: 'Year', color: '#6b7280' } },
+      y: {
+        grid: gridOpts,
+        title: { display: true, text: 'Total Registered Growers', color: '#6b7280' },
+        ticks: { callback: v => v.toLocaleString() }
+      }
+    },
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} growers`
+        }
+      }
+    }
+  }
+});
+
+// ---- Annual new registrations ----
+new Chart(document.getElementById('chart20yrAnnual'), {
+  type: 'bar',
+  data: {
+    labels: proj20.years.slice(1),
+    datasets: [
+      { label: 'Transformative', data: ann_tran.slice(1), backgroundColor: 'rgba(110,181,160,0.75)', borderRadius: 3 },
+      { label: 'Optimistic',     data: ann_opt.slice(1),  backgroundColor: 'rgba(212,168,83,0.75)',  borderRadius: 3 },
+      { label: 'Baseline',       data: ann_base.slice(1), backgroundColor: 'rgba(91,141,184,0.75)',  borderRadius: 3 },
+      { label: 'Pessimistic',    data: ann_pess.slice(1), backgroundColor: 'rgba(201,107,74,0.6)',   borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { grid: gridOpts, ticks: { font: { size: 9 } } },
+      y: { grid: gridOpts, ticks: { callback: v => v.toLocaleString() } }
+    },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+
+// ---- Growth rate trajectory ----
+new Chart(document.getElementById('chartGrowthRate'), {
+  type: 'line',
+  data: {
+    labels: proj20.years.slice(1),
+    datasets: [
+      { label: 'Transformative', data: gr_tran.slice(1), borderColor: COLORS.teal,   tension: 0.4, pointRadius: 2, fill: false, borderWidth: 2 },
+      { label: 'Optimistic',     data: gr_opt.slice(1),  borderColor: COLORS.amber,  tension: 0.4, pointRadius: 2, fill: false, borderWidth: 2 },
+      { label: 'Baseline',       data: gr_base.slice(1), borderColor: '#5b8db8',     tension: 0.4, pointRadius: 2, fill: false, borderWidth: 1.5, borderDash: [5,3] },
+      { label: 'Pessimistic',    data: gr_pess.slice(1), borderColor: COLORS.orange, tension: 0.4, pointRadius: 2, fill: false, borderWidth: 1.5, borderDash: [3,3] }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { grid: gridOpts, ticks: { font: { size: 9 } } },
+      y: {
+        grid: gridOpts,
+        title: { display: true, text: 'Annual Growth Rate (%)', color: '#6b7280' },
+        ticks: { callback: v => v + '%' }
+      }
+    },
+    plugins: {
+      legend: { position: 'bottom' },
+      annotation: {
+        annotations: {
+          zeroline: { type: 'line', yMin: 0, yMax: 0, borderColor: 'rgba(201,107,74,0.4)', borderWidth: 1, borderDash: [4,4] }
+        }
+      }
+    }
+  }
+});
+
+// ---- Decade milestones grouped bar ----
+new Chart(document.getElementById('chartDecadeMilestones'), {
+  type: 'bar',
+  data: {
+    labels: ['2020 (Base)', '2025 (5yr)', '2030 (10yr)', '2035 (15yr)', '2040 (20yr)'],
+    datasets: [
+      { label: 'Transformative', data: [2784, 4563, 8786, 16474, 25336], backgroundColor: 'rgba(110,181,160,0.8)', borderRadius: 4 },
+      { label: 'Optimistic',     data: [2784, 3944, 5796, 7940,  9659],  backgroundColor: 'rgba(212,168,83,0.8)',  borderRadius: 4 },
+      { label: 'Baseline',       data: [2784, 3345, 3895, 4394,  4801],  backgroundColor: 'rgba(91,141,184,0.8)',  borderRadius: 4 },
+      { label: 'Pessimistic',    data: [2784, 2879, 2700, 2740,  2713],  backgroundColor: 'rgba(201,107,74,0.7)',  borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { grid: gridOpts },
+      y: { grid: gridOpts, ticks: { callback: v => v.toLocaleString() } }
+    },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+
+// ---- Populate milestone table ----
+const milestoneYears = [2020,2025,2030,2035,2040];
+const t20body = document.getElementById('table20yr');
+proj20.years.forEach((yr, i) => {
+  if (!milestoneYears.includes(yr) && i % 2 !== 0) return; // show every 2nd year + milestones
+  const isMilestone = milestoneYears.includes(yr);
+  t20body.innerHTML += `<tr style="${isMilestone ? 'background:rgba(212,168,83,0.05);font-weight:600' : ''}">
+    <td style="color:${isMilestone ? 'var(--accent)' : 'var(--muted)'};font-weight:${isMilestone?700:400}">${yr}${isMilestone?' ★':''}</td>
+    <td style="color:#5b8db8">${proj20.baseline[i].toLocaleString()}</td>
+    <td style="color:var(--accent)">${proj20.optimistic[i].toLocaleString()}</td>
+    <td style="color:var(--accent3)">${proj20.pessimistic[i].toLocaleString()}</td>
+    <td style="color:var(--accent2)">${proj20.transformative[i].toLocaleString()}</td>
+  </tr>`;
+});
 
 // ========== TAB SWITCHING ==========
 function switchTab(name) {

@@ -1,8 +1,8 @@
 """
 Kenya Coffee Sector - Advanced ML Analysis Pipeline
 =====================================================
-Author: Chege-N / Claude Analysis
-Date: April 2026
+Author: Chege-N 
+Date: 25 April 2026
 Description:
     Full end-to-end ML pipeline for Kenya Coffee Growers & Dealers datasets.
     Includes: EDA, Feature Engineering, Clustering (KMeans, DBSCAN),
